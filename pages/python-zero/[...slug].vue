@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main >
     <ContentDoc v-slot="{ doc }">
       <BodyNav :toc="doc.body.toc" />
           
@@ -18,5 +18,6 @@
   </template>
 
 <script setup lang="ts">
+const route = useRoute();
 const catsQuery = queryContent('/python-zero/')
 </script>
