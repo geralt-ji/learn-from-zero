@@ -3,9 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: [
-    '@nuxt/content'
+    '@nuxt/content', '@nuxtjs/tailwindcss'
   ],
   content: {
-    // ... options
+    markdown: {
+      toc: { depth: 2, searchDepth: 2 },
+    }
   }
 })
