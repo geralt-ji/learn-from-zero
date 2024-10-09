@@ -1,6 +1,6 @@
 <template>
     <div class="mx-auto p-4 rounded-lg">
-      <h2 class="text-xl font-bold mb-4">评论 ({{ totalComments }})</h2>
+      <h2 id="评论" class="text-xl font-bold mb-4">评论 ({{ totalComments }})</h2>
       
       <!-- Bilibili风格的排序选择 -->
       <div class="mb-4 flex items-center space-x-4 text-sm">

@@ -1,3 +1,5 @@
 <template>
-    <h1>Python教程首页</h1>
+  <ContentNavigation v-slot="{ navigation }" :query="queryContent('/python-zero/')">
+    <TutNav :nav="navigation[0].children" />
+  </ContentNavigation>
 </template>

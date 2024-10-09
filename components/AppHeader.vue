@@ -1,6 +1,6 @@
 <template>
-  <header class="bg-background/75 backdrop-blur border-b border-gray-200 dark:border-gray-800 -mb-px sticky top-0 z-50">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex justify-between gap-3 h-[--header-height]">
+  <header class="bg-background backdrop-blur border-b border-gray-200 dark:border-gray-800 -mb-px sticky top-0 z-50">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl flex justify-between gap-3 h-[--header-height]">
       <div class="font-black lg:flex-1 flex items-center gap-1.5">
         <p>学习网站</p>
         <ul class="ml-6 gap-x-8 hidden lg:flex">

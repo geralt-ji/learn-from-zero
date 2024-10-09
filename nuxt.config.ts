@@ -12,14 +12,14 @@ export default defineNuxtConfig({
       toc: { depth: 2, searchDepth: 2 },
     },
     highlight: {
+      langs: ['py', 'js'],
       // OR
       theme: {
         // Default theme (same as single string)
-        default: 'github-light',
+        light: 'github-light',
         // Theme used if `html.dark`
         dark: 'github-dark',
         // Theme used if `html.sepia`
-        sepia: 'monokai'
       }
     }
   },
@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     globalName: '__NUXT_COLOR_MODE__',
     componentName: 'ColorScheme',
     classPrefix: '',
-    classSuffix: '-mode',
+    classSuffix: '',
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
   }

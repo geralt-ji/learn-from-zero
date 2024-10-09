@@ -3,23 +3,28 @@
 @tailwind utilities;
 
 :root {
+  --color-primary-400: rgb(0 220 130);
+  --color-primary-500: rgb(0 193 106);
+
   --color: #243746;
-  --color-primary: #158876;
+  --color-primary: var(--color-primary-500);
   --color-secondary: #0e2233;
-  --bg: #f3f5f4;
+  --bg: white;
   --bg-secondary: #fff;
   --border-color: #ddd;
+  --pre-bg: #f9fafb;
 
   --header-height: 4rem;
 }
 
-.dark-mode {
+.dark {
   --color: #ebf4f1;
-  --color-primary: #41b38a;
+  --color-primary: var(--color-primary-400);
   --color-secondary: #fdf9f3;
   --bg: #091a28;
   --bg-secondary: #071521;
-  --border-color: #0d2538
+  --border-color: #0d2538;
+  --pre-bg: #1e293b;
 }
 
 .sepia-mode {
@@ -36,16 +41,38 @@ body {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
 }
 
-.prose a  {
-  text-decoration: none; /* 去掉下划线 */
+a:hover {
+  color: var(--color-primary);  /* 悬停高亮 */
 }
 
-.prose h1, h2, h3, h4, h5, h6   {
+.prose a  {
+  text-decoration: none; /* 去掉下划线 */
+  color: var(--color);
+}
+
+.prose a:hover  {
+  text-decoration: none; /* 去掉下划线 */
+  color: var(--color);
+}
+
+.prose p a {
+  text-decoration-line: none; /* 悬停显示下划线 */
+  color: var(--color-primary);
+}
+
+.prose p a:hover {
+  text-decoration-line: underline; /* 悬停显示下划线 */
+  color: var(--color-primary);
+}
+
+.prose h1,h2,h3,h4,h5,h6 {
   scroll-margin-top: calc(40px + var(--header-height));
 }
 
-a:hover {
-  color: var(--color-primary)
+.prose pre{
+  background-color: var(--pre-bg);
+  border: 1px solid var(--tw-prose-pre-border);
+  border-radius: .375rem;
 }
 
 .gray[data-v-8ac8fd7d] {
@@ -68,4 +95,17 @@ p {
 
 html {
   scroll-behavior: smooth;
+}
+
+
+@media (prefers-color-scheme: light) {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    /* 可选，用于定义字体样式 */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
