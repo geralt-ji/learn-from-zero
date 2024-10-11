@@ -33,5 +33,17 @@ export default defineNuxtConfig({
     classSuffix: '',
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
+  },
+  // 在<header><script>中引入pyodide脚本
+  app: {
+    head: {
+      script: [
+        {
+          src: 'https://jsd.onmicrosoft.cn/pyodide/v0.26.2/full/pyodide.js',
+          type: 'text/javascript',
+          defer: true
+        }
+      ]
+    }
   }
 })

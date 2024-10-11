@@ -9,7 +9,7 @@
           <button class="btn">
               复制
           </button>
-          <button @click="runCode" class="btn btn-success float-right">
+          <button @click="executeCode" class="btn btn-success float-right">
               点击运行
           </button>
         </div>
@@ -35,7 +35,7 @@
         <div class="py-2 px-4 overflow-auto bg-transparent"
              :style="{'max-height': props.maxHeight}">
           <client-only>
-            <span>hello{{ result }}</span>
+            <span>{{ execReturn }}</span>
           </client-only>
         </div>
       </div>
@@ -48,6 +48,8 @@ import { python } from '@codemirror/lang-python';
 import { Codemirror } from 'vue-codemirror';
 import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 const colorMode = useColorMode()
+const extensions = ref([python(),githubLight,githubDark])
+
 const slots = useSlots();
 
 const props = defineProps({
@@ -63,16 +65,45 @@ const props = defineProps({
  
 // Initial code
 const code = ref(slots.default()[0].props.code)
-const extensions = ref([python(),githubLight,githubDark])
+const execReturn = ref()
+let pyodide = null;
+
 
 watch(
    colorMode,
   () => {
     extensions.value = colorMode.value === 'dark' ? [python(), githubDark] : [python(),githubLight]
-    console.log(colorMode)
   },
-  { immediate: true}
+  { immediate: true }
 )
+
+const preCode = '\nsys.stdout = sys.stderr = StringIO()\n';
+const postCode = `import sys, io, base64;__oString = sys.stdout.getvalue()`
+
+const loadPyodideAndPackages = async (dependencies) => {
+  pyodide = await window.loadPyodide()
+  await pyodide.loadPackage(dependencies);
+  pyodide.runPython(`import sys;from io import StringIO;\n${preCode}`);
+  console.log("Pyodide Ready!\n")
+}
+
+const executeCode = async () => {
+  try {
+    await pyodide.runPython(code.value)
+    execReturn.value = await pyodide.runPython("sys.stdout.getvalue()");
+  } catch (jsError) {
+    execReturn.value = await pyodide.runPython("sys.stdout.getvalue()");
+  }
+}
+
+onMounted(async () => {
+  var dependencies = []
+  await loadPyodideAndPackages(dependencies);
+  await pyodide.loadPackage(["micropip"]);
+  const micropip = pyodide.pyimport("micropip");
+  await micropip.install('pandas');
+  console.log("Dependencies Ready!")
+})
 </script>
 
 <style>
