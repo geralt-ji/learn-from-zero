@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: [
-    '@nuxt/content', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode'
+    '@nuxt/content', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@pinia/nuxt'
   ],
   content: {
     markdown: {
@@ -34,16 +34,4 @@ export default defineNuxtConfig({
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
   },
-  // 在<header><script>中引入pyodide脚本
-  app: {
-    head: {
-      script: [
-        {
-          src: 'https://jsd.onmicrosoft.cn/pyodide/v0.26.2/full/pyodide.js',
-          type: 'text/javascript',
-          defer: true
-        }
-      ]
-    }
-  }
 })

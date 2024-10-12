@@ -14,7 +14,7 @@
         {{ copied ? 'Done' : 'Copy' }}
       </span>
     </button>
-    <pre :class="$props.class" class="my-0"><slot /></pre>
+    <pre :class="{'rounded-t-none': meta !== 'noTag' && filename, [$props.class]:true}" class="my-0 border rounded border-gray-200 dark:border-gray-700"><slot /></pre>
   </div>
 </template>
   

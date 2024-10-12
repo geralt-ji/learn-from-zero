@@ -14,7 +14,7 @@
       <span class="iconify i-heroicons:clipboard-document flex-shrink-0 h-4 w-4" aria-hidden="true" style="">
       </span>
     </button>
-    <component :is="$slots.default()[activeIndex]">
+    <component :is="$slots.default()[activeIndex]" class="rounded-t-none">
     </component>
   </div>
 </template>

@@ -1,16 +1,20 @@
 <template>
   <div class="relative w-full rounded-lg rounded-md border border-solid  dark:border-gray-700">
-    <div class="flex space-x-2 w-full">
-      <div class="card h-full border-r">
+    <div class="grid w-full" 
+    :class="{'grid-cols-2':!$props.showInCol, 'gap-x-2':!$props.showInCol,
+             'grid-cols-1':$props.showInCol, 'gap-y-0':$props.showInCol}">
+      <div class="card h-full" :class="{'border-r':!$props.showInCol, 'rounded-sm':$props.showInCol, 'border-b':$props.showInCol}">
         <div class="card-header">
           <button class="btn cursor-default font-semibold">
               源代码：
           </button>
-          <button class="btn">
+          <button class="btn" @click="copyCodeToClipboard">
               复制
           </button>
-          <button @click="executeCode" class="btn btn-success float-right">
-              点击运行
+          <button @click="executeCode" 
+          class="btn float-right"
+          :class="{'btn-success': pyodideStore.initialized, 'btn-initializing': !pyodideStore.initialized}">
+              {{ pyodideStore.initialized ? '运行代码' : '解释器初始化中'}}
           </button>
         </div>
           <Codemirror
@@ -21,21 +25,21 @@
             :disabled="!props.editable"
             :basic-setup="true"
             :indent-with-tab="true"
-            style="height: 100%;font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;"
+            style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;"
             theme={githubLight}
             :style="{'max-height': props.maxHeight}"
           />
       </div>
-      <div class="card border-l">
+      <div class="card" :class="{'border-l':!$props.showInCol, 'rounded-sm':$props.showInCol}">
         <div class="card-header">
           <button class="btn cursor-default font-semibold">
             运行结果：
           </button>
         </div>
-        <div class="py-2 px-4 overflow-auto bg-transparent"
+        <div class="py-4 px-4 bg-transparent overflow-x-auto w-full"
              :style="{'max-height': props.maxHeight}">
           <client-only>
-            <span>{{ execReturn }}</span>
+            <div class="text-xs leading-4 m-0 whitespace-pre font-mono">{{ execReturn }}</div>
           </client-only>
         </div>
       </div>
@@ -50,6 +54,8 @@ import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 const colorMode = useColorMode()
 const extensions = ref([python(),githubLight,githubDark])
 
+const pyodideStore = usePyodideStore();
+
 const slots = useSlots();
 
 const props = defineProps({
@@ -59,15 +65,18 @@ const props = defineProps({
   },
   maxHeight: {
     type: String,
-    default: '24rem',
+    default: '20rem',
   },
+  showInCol: {
+    type: Boolean,
+    default: false
+  }
 })
  
 // Initial code
 const code = ref(slots.default()[0].props.code)
-const execReturn = ref()
-let pyodide = null;
-
+console.log(slots.default()[0].props)
+const execReturn = ref('\n')
 
 watch(
    colorMode,
@@ -77,42 +86,36 @@ watch(
   { immediate: true }
 )
 
-const preCode = '\nsys.stdout = sys.stderr = StringIO()\n';
-const postCode = `import sys, io, base64;__oString = sys.stdout.getvalue()`
-
-const loadPyodideAndPackages = async (dependencies) => {
-  pyodide = await window.loadPyodide()
-  await pyodide.loadPackage(dependencies);
-  pyodide.runPython(`import sys;from io import StringIO;\n${preCode}`);
-  console.log("Pyodide Ready!\n")
-}
-
 const executeCode = async () => {
+  pyodideStore.isRunningPython = true
   try {
-    await pyodide.runPython(code.value)
-    execReturn.value = await pyodide.runPython("sys.stdout.getvalue()");
+    await pyodideStore.runPython(code.value)
+    execReturn.value = await pyodideStore.runPython("sys.stdout.getvalue()");
+    console.log(execReturn)
   } catch (jsError) {
-    execReturn.value = await pyodide.runPython("sys.stdout.getvalue()");
+    execReturn.value = await pyodideStore.runPython("sys.stdout.getvalue()");
+    console.log(execReturn)
   }
+  pyodideStore.isRunningPython = false
 }
 
-onMounted(async () => {
-  var dependencies = []
-  await loadPyodideAndPackages(dependencies);
-  await pyodide.loadPackage(["micropip"]);
-  const micropip = pyodide.pyimport("micropip");
-  await micropip.install('pandas');
-  console.log("Dependencies Ready!")
-})
+// 定义复制代码的函数
+const copyCodeToClipboard = () => {
+  // 将 code 的值复制到剪贴板
+  navigator.clipboard.writeText(code.value)
+}
 </script>
 
 <style>
 .btn {
-  @apply py-1.5 px-3 rounded-md
+  @apply px-2 py-1.5 rounded-md text-sm focus:outline-none
 }
 .btn-success {
-background-color: var(--color-primary);
-color: white;
+  background-color: var(--color-primary);
+  color: white;
+}
+.btn-initializing {
+  @apply border cursor-not-allowed
 }
 /* .btn {
 @apply px-4 py-2  text-sm font-medium transition-colors duration-150;
@@ -123,11 +126,11 @@ color: white;
 } */
 
 .card {
-  @apply w-1/2 rounded-md border-solid dark:border-gray-700
+  @apply rounded-md border-solid dark:border-gray-700 bg-[--pre-bg]
 }
 
 .card-header {
-  @apply px-2 py-2 border-b border-gray-200 dark:border-gray-700
+  @apply px-2 py-2 border-b border-gray-200 dark:border-gray-700 bg-[--bg]
 }
 
 .btn-outline-dark {
@@ -144,5 +147,9 @@ color: white;
 
 .code-editor {
 height: 400px;
+}
+
+.cm-line{
+  line-height: 1.5;
 }
 </style>

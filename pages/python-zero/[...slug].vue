@@ -75,8 +75,15 @@
   </main>
 </template>
 
-<script setup lang="ts">
-
-const route = useRoute();
+<script setup>
 const catsQuery = queryContent('/python-zero/')
+const pyodideStore = usePyodideStore(); // 获取 Pinia store
+
+// Toggle Re-initialise for each Page
+pyodideStore.initialized = false;
+
+onMounted(()=>{
+  let pipDependencies = []
+  pyodideStore.initialize(pipDependencies);
+})
 </script>
