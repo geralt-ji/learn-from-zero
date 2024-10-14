@@ -51,7 +51,7 @@ export const usePyodideStore = defineStore('pyodide', {
     async initIOSetting(){
       // 保存原始的 stdout 和 stderr
       // 标准输出 (sys.stdout) 和错误 (sys.stderr) 重定向为 StringIO 对象
-      let pyCodeSetIO = `import sys;import io; _original_stdout = sys.stdout;_original_stderr = sys.stderr; sys.stdout = io.StringIO();sys.stderr = io.StringIO()`
+      let pyCodeSetIO = `import sys;import io; _original_stdout = sys.stdout;_original_stderr = sys.stderr; sys.stdout = io.StringIO();sys.stderr = io.StringIO();import time;time.sleep = lambda x: None;\n`
       await this.pyodide.runPython(pyCodeSetIO);
     },
 
