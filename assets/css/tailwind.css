@@ -71,8 +71,7 @@ a:hover {
 
 .prose pre{
   background-color: var(--pre-bg);
-  border: 1px solid var(--tw-prose-pre-border);
-  border-radius: .375rem;
+  margin: 0;
 }
 
 .gray[data-v-8ac8fd7d] {
