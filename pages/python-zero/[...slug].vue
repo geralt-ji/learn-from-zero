@@ -79,11 +79,16 @@
 const catsQuery = queryContent('/python-zero/')
 const pyodideStore = usePyodideStore(); // 获取 Pinia store
 
+const slug = useRoute().params.slug // 假设 slug 是从路由参数中获取的
+
+// 使用 slug 获取文章内容
+const article = await queryContent(`/python-zero/${slug}`).findOne() // 使用 slug 动态构建路径
+
 // Toggle Re-initialise for each Page
 pyodideStore.initialized = false;
 
 onMounted(()=>{
-  let pipDependencies = []
-  pyodideStore.initialize(pipDependencies);
+  pyodideStore.initialize();
+  pyodideStore.installDependency(article.pipDependencies);
 })
 </script>

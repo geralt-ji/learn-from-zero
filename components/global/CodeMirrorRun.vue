@@ -14,7 +14,7 @@
           <button @click="executeCode" 
           class="btn float-right"
           :class="{'btn-success': pyodideStore.initialized, 'btn-initializing': !pyodideStore.initialized}">
-              {{ pyodideStore.initialized ? '运行代码' : '解释器初始化中'}}
+              {{ pyodideStore.isRunningPython?'运行中...':(pyodideStore.initialized?'运行代码':'解释器初始化中')}}{{  }}
           </button>
         </div>
           <Codemirror
@@ -54,9 +54,8 @@ import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 const colorMode = useColorMode()
 const extensions = ref([python(),githubLight,githubDark])
 
-const pyodideStore = usePyodideStore();
-
 const slots = useSlots();
+const pyodideStore = usePyodideStore();
 
 const props = defineProps({
   editable: {
@@ -72,36 +71,37 @@ const props = defineProps({
     default: false
   }
 })
- 
-// Initial code
-const code = ref(slots.default()[0].props.code)
-console.log(slots.default()[0].props)
-const execReturn = ref('\n')
 
+// Watch ColorMode chage and update codemirror theme 监听ColorMode变化以更新代码编辑器的主题
 watch(
-   colorMode,
+  colorMode,
   () => {
     extensions.value = colorMode.value === 'dark' ? [python(), githubDark] : [python(),githubLight]
-  },
-  { immediate: true }
+  }, { immediate: true }
 )
+ 
+// Get initial code and Init execuate return 获取初始代码，初始化执行结果
+const code = ref(slots.default()[0].props.code)
+const execReturn = ref('\n')
 
-const executeCode = async () => {
+const executeCode = async ()=>{
   pyodideStore.isRunningPython = true
+  execReturn.value = ''
+
   try {
-    await pyodideStore.runPython(code.value)
-    execReturn.value = await pyodideStore.runPython("sys.stdout.getvalue()");
-    console.log(execReturn)
-  } catch (jsError) {
-    execReturn.value = await pyodideStore.runPython("sys.stdout.getvalue()");
-    console.log(execReturn)
+    await pyodideStore.runPythonAsync(code.value).then(data=>{
+      execReturn.value = data
+    })
+  } catch (error) {
+    console.error("Error executing Python code:", error)
+    execReturn.value = `Error: ${error.message}`
+  } finally {
+    pyodideStore.isRunningPython = false
   }
-  pyodideStore.isRunningPython = false
 }
 
-// 定义复制代码的函数
+// 复制代码编辑器中的代码到剪贴板
 const copyCodeToClipboard = () => {
-  // 将 code 的值复制到剪贴板
   navigator.clipboard.writeText(code.value)
 }
 </script>
@@ -117,13 +117,6 @@ const copyCodeToClipboard = () => {
 .btn-initializing {
   @apply border cursor-not-allowed
 }
-/* .btn {
-@apply px-4 py-2  text-sm font-medium transition-colors duration-150;
-} */
-
-/* .btn-outline-secondary {
-@apply border border-gray-300 text-gray-700 hover:bg-gray-100;
-} */
 
 .card {
   @apply rounded-md border-solid dark:border-gray-700 bg-[--pre-bg]
