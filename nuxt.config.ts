@@ -34,8 +34,4 @@ export default defineNuxtConfig({
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
   },
-  app: {
-    baseURL: '/learn-from-zero/', // 替换成你的仓库名
-    buildAssetsDir: 'assets', // 不要使用 '_' 开头的目录名
-  },
 })
