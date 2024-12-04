@@ -34,14 +34,4 @@ export default defineNuxtConfig({
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
   },
-  app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/',
-  },
-  nitro: {
-    routeRules: {
-      '/**': { 
-        prerender: true 
-      }
-    }
-  }
 })
