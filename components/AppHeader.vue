@@ -2,13 +2,13 @@
   <header class="bg-background backdrop-blur border-b border-gray-200 dark:border-gray-800 -mb-px sticky top-0 z-50">
     <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl flex justify-between gap-3 h-[--header-height]">
       <div class="font-black lg:flex-1 flex items-center gap-1.5">
-        <!-- <nav>
-          <NuxtLink :to="`${useRuntimeConfig().app.baseURL}`">首页</NuxtLink>
-          <NuxtLink :to="`${useRuntimeConfig().app.baseURL}python-zero`">零基础学Python</NuxtLink>
-          <NuxtLink :to="`${useRuntimeConfig().app.baseURL}mysql-zero`">零基础学MySQL</NuxtLink>
-        </nav> -->
+        <nav>
+          <NuxtLink :to="`${BASE_URL}`">首页</NuxtLink>
+          <NuxtLink :to="`${BASE_URL}python-zero`">零基础学Python</NuxtLink>
+          <NuxtLink :to="`${BASE_URL}mysql-zero`">零基础学MySQL</NuxtLink>
+        </nav>
         <p>学习网站</p>
-        <ul class="ml-6 gap-x-8 hidden lg:flex">
+        <!-- <ul class="ml-6 gap-x-8 hidden lg:flex">
           <li class="relative">
             <a class="text-sm/6 font-semibold flex items-center gap-1" href="/">
               首页
@@ -24,7 +24,7 @@
               零基础学MySQL
             </a>
           </li>
-        </ul>
+        </ul> -->
       </div>
       <div class="flex items-center justify-end lg:flex-1 gap-1.5">
         <button type="button" @click="toggleColorMode" class="focus:outline-none focus-visible:outline-0 disabled:cursor-not-allowed disabled:opacity-75 flex-shrink-0 font-medium rounded-md text-sm gap-x-1.5 p-1.5 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 inline-flex items-center">
@@ -42,7 +42,8 @@
 </template>
 
 <script setup>
-import { useRuntimeConfig } from '#app'
+// import { useRuntimeConfig } from '#app'
+const BASE_URL = '/learn-from-zero/'
 
 const colorMode = useColorMode()
 
