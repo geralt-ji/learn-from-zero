@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindTypography from '@tailwindcss/typography'
 
+const BASEURL = process.env.NODE_ENV === 'production' 
+  ? '/learn-from-zero/' 
+  : '/'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
@@ -35,6 +39,6 @@ export default defineNuxtConfig({
     storageKey: 'nuxt-color-mode'
   },
   router: {
-    base: process.env.NODE_ENV === 'production' ? '/learn-from-zero/' : '/'
-  }
+    base: BASEURL
+  },
 })
