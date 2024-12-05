@@ -34,4 +34,7 @@ export default defineNuxtConfig({
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
   },
+  router: {
+    base: process.env.NODE_ENV === 'production' ? '/learn-from-zero/' : '/'
+  }
 })
