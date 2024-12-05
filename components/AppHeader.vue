@@ -15,7 +15,7 @@
             </a>
           </li>
           <li class="relative">
-            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/learn-from-zero/python-zero">
+            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/python-zero">
               零基础学Python
             </a>
           </li>
