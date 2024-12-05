@@ -41,7 +41,4 @@ export default defineNuxtConfig({
   router: {
     base: BASEURL
   },
-  app: {
-    baseURL: BASEURL
-  }
 })
