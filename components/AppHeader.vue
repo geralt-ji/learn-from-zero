@@ -10,17 +10,17 @@
         <p>学习网站</p>
         <ul class="ml-6 gap-x-8 hidden lg:flex">
           <li class="relative">
-            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/learn-from-zero/">
+            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/">
               首页
             </a>
           </li>
           <li class="relative">
-            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/learn-from-zero/python-zero">
+            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/python-zero">
               零基础学Python
             </a>
           </li>
           <li class="relative">
-            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/learn-from-zero/mysql-zero">
+            <a class="text-sm/6 font-semibold flex items-center gap-1" href="/mysql-zero">
               零基础学MySQL
             </a>
           </li>
