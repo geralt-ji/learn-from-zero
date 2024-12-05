@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
     storageKey: 'nuxt-color-mode'
   },
-  router: {
-    base: BASEURL
-  },
+  app: {
+    baseURL: BASEURL
+  }
 })

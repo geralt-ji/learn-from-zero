@@ -3,7 +3,7 @@
     <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl flex justify-between gap-3 h-[--header-height]">
       <div class="font-black lg:flex-1 flex items-center gap-1.5">
         <nav>
-          <NuxtLink :to="useRuntimeConfig().app.baseURL">首页</NuxtLink>
+          <NuxtLink :to="`${useRuntimeConfig().app.baseURL}`">首页</NuxtLink>
           <NuxtLink :to="`${useRuntimeConfig().app.baseURL}python-zero`">零基础学Python</NuxtLink>
           <NuxtLink :to="`${useRuntimeConfig().app.baseURL}mysql-zero`">零基础学MySQL</NuxtLink>
         </nav>
@@ -42,6 +42,8 @@
 </template>
 
 <script setup>
+import { useRuntimeConfig } from '#app'
+
 const colorMode = useColorMode()
 
 const toggleColorMode = () => {
