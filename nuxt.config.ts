@@ -41,4 +41,7 @@ export default defineNuxtConfig({
   // router: {
   //   base: BASEURL
   // },
+  app: {
+    baseURL: '/learn-from-zero/'
+  },
 })
